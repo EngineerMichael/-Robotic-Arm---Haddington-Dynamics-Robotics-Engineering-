@@ -1,1 +1,2 @@
-# -Robotic-Arm---Haddington-Dynamics-Robotics-Engineering-
+# Dexter
+Software and FPGA code and PCB for Dexter the robot
