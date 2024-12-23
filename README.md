@@ -1,3 +1,146 @@
+A sample README for a project that focuses on automating a 3D-printed robotic arm using C and JavaScript in a custom Integrated Development Environment (IDE).
+
+3D-Printed Robotic Arm Automation
+
+Overview
+
+This project demonstrates the automation of a 3D-printed robotic arm, controlled through a custom-developed Integrated Development Environment (IDE). The robotic arm is programmed using C for embedded systems control and JavaScript for the high-level control and automation. This solution integrates the movement of the robotic arm with specific tasks such as picking, placing, and rotating objects.
+
+Features
+	•	C Programming for Embedded Systems: Low-level control for motor movement and sensor feedback.
+	•	JavaScript for High-Level Automation: Logic for automating tasks like object manipulation.
+	•	Custom IDE: An intuitive environment tailored for both C and JavaScript development.
+	•	3D-Printed Hardware: The robotic arm is fabricated with 3D printing for ease of customization and prototyping.
+
+Requirements
+
+Hardware:
+	•	3D-printed robotic arm with actuators and sensors (such as servo motors, stepper motors, and distance sensors).
+	•	Microcontroller (e.g., Arduino, ESP32, or Raspberry Pi) for C programming execution.
+	•	Power supply for the robotic arm and microcontroller.
+
+Software:
+	•	C Compiler (e.g., GCC or a microcontroller-specific compiler).
+	•	Node.js and npm for JavaScript execution.
+	•	Custom IDE for coding, compiling, and uploading programs to the microcontroller.
+	•	Servo Controller (if applicable).
+
+Libraries/Dependencies:
+	•	wiringPi (or equivalent) for GPIO control (if using Raspberry Pi or similar).
+	•	Johnny-Five JavaScript library for robotics with Node.js (if using a Node.js server).
+	•	Serial Communication: Communication between the IDE and microcontroller for real-time updates.
+
+Setup Instructions
+
+1. Install the Custom IDE
+	1.	Clone the repository:
+
+git clone https://github.com/yourusername/3d-printed-robotic-arm.git
+cd 3d-printed-robotic-arm
+
+
+	2.	Follow the installation guide for the custom IDE:
+	•	Windows: Download the installer from the releases page.
+	•	macOS/Linux: Follow the installation instructions in the INSTALL.md file.
+	3.	Launch the IDE:
+
+./ide --start
+
+
+
+2. Setup the Microcontroller
+	•	Connect the microcontroller (e.g., Arduino) to your computer via USB.
+	•	Open the robot-arm.c file in the IDE, modify pin assignments if necessary (see configuration section below), and compile/upload the code to the microcontroller.
+
+3. Running the JavaScript Automation
+	•	Ensure that Node.js is installed:
+
+node -v
+npm -v
+
+
+	•	Install necessary dependencies:
+
+npm install
+
+
+	•	Start the automation script:
+
+node automation.js
+
+
+
+Configuration
+
+Microcontroller Pin Setup
+
+The following pin mappings are used for controlling the motors:
+
+#define MOTOR_PIN_1 3    // Motor 1 (Base Rotation)
+#define MOTOR_PIN_2 5    // Motor 2 (Shoulder)
+#define MOTOR_PIN_3 6    // Motor 3 (Elbow)
+#define MOTOR_PIN_4 9    // Motor 4 (Wrist)
+#define MOTOR_PIN_5 10   // Motor 5 (Gripper)
+#define SENSOR_PIN_1 A0  // Distance Sensor 1
+#define SENSOR_PIN_2 A1  // Distance Sensor 2
+
+JavaScript Automation Script Example
+
+The automation.js file controls the robotic arm to perform a simple pick-and-place operation:
+
+const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", function() {
+  let arm = new five.Robot({
+    pins: [3, 5, 6, 9, 10], // Motor pin assignments
+    invert: [false, false, false, false, false]
+  });
+
+  let gripper = new five.Servo(10);
+  let elbow = new five.Servo(6);
+
+  // Example automation: Move arm to position 1
+  arm.move([90, 0, 0, 90, 0]);
+
+  // Pick object
+  gripper.to(30); // Close gripper
+  elbow.to(45);   // Move arm to angle
+
+  // Move to new position
+  arm.move([0, 45, 45, 45, 0]);
+  gripper.to(90); // Open gripper
+});
+
+Source Code Structure
+
+/3d-printed-robotic-arm
+|-- /src
+|   |-- robot-arm.c            # C code for microcontroller control
+|   |-- automation.js          # JavaScript automation script
+|-- /docs
+|   |-- INSTALL.md             # Installation guide for the IDE
+|   |-- CONFIG.md              # Configuration details
+|-- /hardware
+|   |-- arm-design.stl         # 3D printable STL files for the robotic arm
+|   |-- arm-assembly-guide.pdf # Assembly guide
+|-- /ide
+|   |-- custom-ide-source-code # Source code for the custom IDE
+
+Testing & Troubleshooting
+	•	Motor not moving: Check power connections and ensure correct pin assignments.
+	•	Automation not working: Make sure the communication between the microcontroller and the IDE is functioning (e.g., check serial connection).
+	•	Gripper malfunctioning: Verify the servo calibration and ensure that the gripper.to(angle) command corresponds to the correct position.
+
+Contributing
+
+We welcome contributions! If you would like to contribute to the project, please fork the repository, create a branch, and submit a pull request with your improvements. Be sure to follow the guidelines provided in CONTRIBUTING.md.
+
+License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+Feel free to adjust the details based on specific setup and components.
 # Dexter
 Software and FPGA code and PCB for Dexter the robot
 
